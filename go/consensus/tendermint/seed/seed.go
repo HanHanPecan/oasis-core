@@ -335,7 +335,7 @@ func New(dataDir string, identity *identity.Identity, genesisProvider genesis.Pr
 
 	if !(viper.GetBool(CfgDebugDisableAddrBookFromGenesis) && cmflags.DebugDontBlameOasis()) {
 		// Since we don't have access to the address book, add the genesis nodes
-		// to the bootstrap peers instead.
+		// to the persistent peers instead.
 		var addrs []string
 		for _, v := range doc.Registry.Nodes {
 			var openedNode node.Node
@@ -359,10 +359,10 @@ func New(dataDir string, identity *identity.Identity, genesisProvider genesis.Pr
 			addrs = append(addrs, tmvAddr.String())
 		}
 		if len(addrs) > 0 {
-			if len(p2pCfg.BootstrapPeers) > 0 {
-				p2pCfg.BootstrapPeers = p2pCfg.BootstrapPeers + ","
+			if len(p2pCfg.PersistentPeers) > 0 {
+				p2pCfg.PersistentPeers = p2pCfg.PersistentPeers + ","
 			}
-			p2pCfg.BootstrapPeers = p2pCfg.BootstrapPeers + strings.Join(addrs, ",")
+			p2pCfg.PersistentPeers = p2pCfg.PersistentPeers + strings.Join(addrs, ",")
 		}
 	}
 
